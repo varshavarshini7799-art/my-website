@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>View Result</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #74ebd5, #9face6);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    h2, h3 {
+      color: #333;
+    }
+
+    form {
+      background-color: #fff;
+      padding: 25px 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      width: 300px;
+      text-align: center;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+      color: #555;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #3498db;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    #resultSection {
+      margin-top: 20px;
+      background-color: #f9f9f9;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      width: 300px;
+      text-align: center;
+    }
+
+    #scoreDisplay {
+      font-size: 24px;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+  </style>
+</head>
+<body>
+
+  <form id="authForm">
+    <h2>Enter Credentials to View Result</h2>
+    <label>Roll Number:</label>
+    <input type="text" id="roll">
+
+    <label>Password:</label>
+    <input type="password" id="pass">
+
+    <button type="submit">View Result</button>
+  </form>
+
+  <div id="resultSection" style="display:none;">
+    <h3>Your Score:</h3>
+    <p id="scoreDisplay"></p>
+  </div>
+
+  <script>
+    const correctAnswers = {
+      q1: "8",
+      q2: "def"
+    };
+
+    document.getElementById("authForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const roll = document.getElementById("roll").value.trim();
+      const pass = document.getElementById("pass").value.trim();
+
+      if (roll === "123" && pass === "python123") {
+        const userAnswers = JSON.parse(localStorage.getItem("userAnswers"));
+        let score = 0;
+        for (let key in correctAnswers) {
+          if (userAnswers[key]?.toLowerCase() === correctAnswers[key]) {
+            score += 1;
+          }
+        }
+        document.getElementById("scoreDisplay").innerText = `${score} / ${Object.keys(correctAnswers).length}`;
+        document.getElementById("resultSection").style.display = "block";
+      } else {
+        alert("❌ Invalid Roll Number or Password!");
+      }
+    });
+  </script>
+
+</body>
+</html>
